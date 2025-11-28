@@ -101,14 +101,14 @@ for entry in "${TOOLS[@]}"; do
   fi
 
   if [ -z "$installed_version" ]; then
-    echo -e "${YELLOW}Installing${RESET} ${BOLD}${CYAN}$name${RESET} ${YELLOW}version${RESET} ${BOLD}${MAGENTA}$min_version${RESET}..."
-    cargo install "$crate" --version "$min_version"
+    echo -e "${YELLOW}Installing${RESET} ${BOLD}${CYAN}$name${RESET} ${YELLOW}version${RESET} ${BOLD}${MAGENTA}$semver${RESET}..."
+    cargo install "$crate" --version "$semver"
   else
     if version_ge "$installed_version" "$min_version"; then
       echo -e "${GREEN}✓${RESET} ${BOLD}${CYAN}$name${RESET} version ${BOLD}${ORANGE}$installed_version${RESET} is compatible (>= ${BOLD}${MAGENTA}$min_version${RESET})"
     else
-      echo -e "${YELLOW}Reinstalling${RESET} ${BOLD}${CYAN}$name${RESET} ${YELLOW}(${RESET}${BOLD}${ORANGE}$installed_version${RESET} → ${BOLD}${MAGENTA}$min_version${RESET}${YELLOW})${RESET}..."
-      cargo install "$crate" --version "$min_version" --force
+      echo -e "${YELLOW}Reinstalling${RESET} ${BOLD}${CYAN}$name${RESET} ${YELLOW}(${RESET}${BOLD}${ORANGE}$installed_version${RESET} → ${BOLD}${MAGENTA}$semver${RESET}${YELLOW})${RESET}..."
+      cargo install "$crate" --version "$semver" --force
     fi
   fi
 done

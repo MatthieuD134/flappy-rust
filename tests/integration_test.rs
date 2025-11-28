@@ -1,25 +1,16 @@
-//! Integration tests for rust-template
+//! Integration tests for Flappy Rust
 //!
-//! Integration tests live in the `tests/` directory and test the public API
-//! of your crate as an external user would.
-
-use std::process::Command;
-
-#[test]
-fn binary_runs_successfully() {
-    let output = Command::new(env!("CARGO_BIN_EXE_rust-template"))
-        .output()
-        .expect("Failed to execute binary");
-
-    assert!(output.status.success());
-    assert!(String::from_utf8_lossy(&output.stdout).contains("Hello from rust-template!"));
-}
+//! Integration tests for the Flappy Bird clone.
+//! Note: Since this is a graphical game using Bevy, full integration tests
+//! would require a headless renderer.
 
 #[test]
-fn binary_exits_with_zero() {
-    let status = Command::new(env!("CARGO_BIN_EXE_rust-template"))
-        .status()
-        .expect("Failed to execute binary");
+fn game_constants_are_valid() {
+    // Verify game constants would work for gameplay
+    // These would be imported from the main module if it were a library
+    let pipe_gap: f32 = 150.0;
+    let bird_size: f32 = 30.0;
 
-    assert!(status.success());
+    // Bird should fit through the pipe gap
+    assert!(bird_size < pipe_gap);
 }

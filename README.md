@@ -1,129 +1,84 @@
-# Rust Template
+# Flappy Rust 🐦
 
-A modern Rust project template with pre-configured development tooling for the best developer experience.
+A Flappy Bird clone built with the [Bevy](https://bevyengine.org/) game engine in Rust.
+
+## Screenshot
+
+The game uses simple geometric shapes:
+
+- 🟨 Yellow square = Bird
+- 🟩 Green rectangles = Pipes
+- 🟫 Brown rectangle = Ground
+- 🔵 Light blue = Sky
 
 ## Features
 
-- 🦀 **Rust 2024 Edition** - Latest stable Rust features
-- 🔧 **cargo-make** - Task runner for streamlined workflows
-- 📝 **Conventional Commits** - Enforced via commitlint
-- 🧹 **Code Quality** - Clippy linting with strict warnings
-- 🎨 **Formatting** - rustfmt + taplo (TOML) auto-formatting
-- 🧪 **Fast Testing** - cargo-nextest for parallel test execution
-- 🔒 **Security** - cargo-audit vulnerability scanning
-- ⚖️ **Compliance** - cargo-deny for license and dependency checks
-- 📋 **Changelog** - git-cliff for automated changelog generation
-- 🪝 **Git Hooks** - Pre-commit, commit-msg, and pre-push hooks via cargo-husky
+- Classic flappy bird gameplay
+- Bird tilt animation based on velocity
+- Random pipe gap positions and sizes
+- Score tracking
+- Game states (Menu, Playing, Game Over)
 
 ## Quick Start
 
 ### Prerequisites
 
 - [Rust](https://rustup.rs/) (stable toolchain)
-- Git
+
+### Run the Game
+
+```bash
+cargo run
+```
+
+### Controls
+
+- **SPACE** - Start game / Flap / Restart
+
+## Development
 
 ### Setup
 
-1. **Clone or use this template:**
-
-   ```bash
-   # Using GitHub template feature (recommended)
-   # Click "Use this template" on the repository page
-
-   # Or clone directly
-   git clone https://github.com/MatthieuD134/rust-template.git my-project
-   cd my-project
-   ```
-
-2. **Run the bootstrap script:**
-
-   ```bash
-   ./bootstrap.sh
-   ```
-
-   This installs all required development tools and sets up git hooks.
-
-3. **Start coding!**
-
-   ```bash
-   cargo run
-   ```
-
-## Available Tasks
-
-Run tasks with `cargo make <task>`:
-
-| Task | Description |
-|------|-------------|
-| `lint` | Run clippy with warnings as errors |
-| `test` | Run tests with nextest |
-| `audit` | Check for security vulnerabilities |
-| `deny` | Check licenses and dependencies |
-| `check` | Run all checks (lint, test, audit, deny) |
-| `format` | Format all Rust, TOML, and Markdown files |
-| `format-staged` | Format staged files before commit |
-| `docs` | Build documentation |
-| `changelog` | Generate changelog from git commits |
-| `changelog-unreleased` | Preview unreleased changelog entries |
-
-## Git Hooks
-
-The following hooks are automatically installed:
-
-- **pre-commit**: Formats staged Rust and config files
-- **commit-msg**: Validates conventional commit format
-- **pre-push**: Runs full check suite before pushing
-
-## Commit Message Format
-
-This project follows [Conventional Commits](https://www.conventionalcommits.org/):
-
-```text
-<type>(<scope>): <description>
-
-[optional body]
-
-[optional footer(s)]
+```bash
+./bootstrap.sh  # Install dev tools
 ```
 
-**Types:** `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`
+### Available Tasks
 
-**Examples:**
-
-- `feat(parser): add support for nested expressions`
-- `fix(auth): resolve token expiration issue`
-- `docs: update API documentation`
+```bash
+cargo make check   # Run all checks
+cargo make lint    # Clippy linting
+cargo make test    # Run tests
+cargo make format  # Format code
+```
 
 ## Project Structure
 
 ```text
-.
-├── .cargo-husky/       # Git hook scripts
-├── .github/            # GitHub templates, workflows, and prompts
-│   └── workflows/      # CI/CD workflows
-├── .vscode/            # VS Code settings
-├── src/
-│   └── main.rs         # Application entry point
-├── tests/
-│   └── integration_test.rs  # Integration tests
-├── Cargo.toml          # Project manifest
-├── Makefile.toml       # Task definitions
-├── rust-toolchain.toml # Toolchain configuration
-├── clippy.toml         # Clippy lint configuration
-├── deny.toml           # cargo-deny configuration
-├── cliff.toml          # git-cliff configuration
-└── rustfmt.toml        # Formatting configuration
+src/
+├── main.rs           # App setup
+├── constants.rs      # Game parameters
+├── states.rs         # GameState enum
+├── components.rs     # ECS components
+├── resources.rs      # Global resources
+├── utils.rs          # Helpers (RNG)
+└── systems/          # Game logic
+    ├── setup.rs      # Entity spawning
+    ├── bird.rs       # Bird mechanics
+    ├── pipes.rs      # Pipe spawning
+    ├── collision.rs  # Hit detection
+    ├── score.rs      # Scoring
+    └── game.rs       # State management
 ```
 
-## Customizing the Template
+## Tuning
 
-After creating a new project from this template:
+Edit `src/constants.rs` to adjust:
 
-1. Update `Cargo.toml` with your project name, description, and authors
-2. Update this README with your project-specific information
-3. Modify `deny.toml` if you need different license policies
-4. Adjust `.github/PULL_REQUEST_TEMPLATE/default.md` for your workflow
+- `GRAVITY` / `FLAP_STRENGTH` - Bird physics
+- `PIPE_GAP_MIN` / `PIPE_GAP_MAX` - Difficulty
+- `PIPE_SPEED` / `PIPE_SPAWN_TIME` - Pacing
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - see [LICENSE](LICENSE)

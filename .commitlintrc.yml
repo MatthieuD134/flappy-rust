@@ -1,0 +1,38 @@
+# Commitlint configuration for Conventional Commits
+# See: https://keisukeyamashita.github.io/commitlint-rs/
+
+rules:
+  # Type must be one of the allowed types
+  type:
+    level: error
+    options:
+      - build
+      - chore
+      - ci
+      - docs
+      - feat
+      - fix
+      - perf
+      - refactor
+      - revert
+      - style
+      - test
+
+  description-empty: # Description shouldn't be empty
+    level: warning
+
+  subject-empty: # Subject line should exist
+    level: error
+
+  type-empty: # Type must not be empty
+    level: error
+
+  # Subject max length
+  subject-max-length:
+    level: error
+    length: 100
+
+  # Description max length
+  description-max-length:
+    level: error
+    length: 100

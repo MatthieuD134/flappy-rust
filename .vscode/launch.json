@@ -1,0 +1,33 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug rust-template",
+            "cargo": {
+                "args": ["build", "--bin=rust-template", "--package=rust-template"],
+                "filter": {
+                    "name": "rust-template",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests",
+            "cargo": {
+                "args": ["test", "--no-run", "--lib", "--package=rust-template"],
+                "filter": {
+                    "name": "rust-template",
+                    "kind": "lib"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

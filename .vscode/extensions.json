@@ -1,0 +1,21 @@
+{
+  "recommendations": [
+    // Rust essentials
+    "rust-lang.rust-analyzer",
+    "tamasfe.even-better-toml",
+
+    // Error highlighting and debugging
+    "usernamehw.errorlens",
+    "vadimcn.vscode-lldb",
+
+    // Code quality
+    "streetsidesoftware.code-spell-checker",
+
+    // Git
+    "eamodio.gitlens",
+
+    // Productivity
+    "github.copilot",
+    "github.copilot-chat"
+  ]
+}

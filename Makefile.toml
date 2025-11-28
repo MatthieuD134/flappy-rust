@@ -1,0 +1,84 @@
+# Makefile.toml
+# Tasks for Rust template repo
+# Uses only the specified dev tools
+
+[tasks.format-staged-rust]
+description = "Format staged Rust files and re-add them"
+script = [
+  "FILES=\"$(git diff --cached --name-only --diff-filter=ACM | grep '\\.rs$' || true)\"",
+  "if [ -n \"$FILES\" ]; then echo \"$FILES\" | xargs rustfmt; echo \"$FILES\" | xargs git add; fi",
+]
+
+[tasks.format-staged-configs]
+description = "Format staged TOML/MD files and re-add them"
+script = [
+  "FILES=\"$(git diff --cached --name-only --diff-filter=ACM | grep -E '\\.(toml|md)$' || true)\"",
+  "if [ -n \"$FILES\" ]; then for f in $FILES; do case \"$f\" in *.toml) taplo fmt \"$f\" ;; *.md) rumdl fmt \"$f\" ;; esac; git add \"$f\"; done; fi",
+]
+
+[tasks.format-staged]
+description = "Format all staged files (Rust + configs)"
+dependencies = ["format-staged-rust", "format-staged-configs"]
+
+[tasks.format-rust]
+description = "Format all Rust files"
+command = "cargo"
+args = ["fmt", "--all"]
+
+[tasks.format-toml]
+description = "Format all TOML files"
+command = "taplo"
+args = ["fmt"]
+
+[tasks.format-md]
+description = "Format all Markdown files"
+command = "rumdl"
+args = ["fmt", "."]
+
+[tasks.format]
+description = "Format all Rust, TOML, and Markdown files"
+dependencies = ["format-rust", "format-toml", "format-md"]
+
+[tasks.docs]
+description = "Build documentation"
+command = "cargo"
+args = ["doc", "--workspace", "--no-deps"]
+
+[tasks.validate-commit-msg]
+description = "Validate commit message follows Conventional Commits format"
+command = "commitlint"
+args = ["--edit", "${@}"]
+
+[tasks.lint]
+description = "Run clippy (workspace + all targets)"
+command = "cargo"
+args = ["clippy", "--workspace", "--all-targets", "--", "-D", "warnings"]
+
+[tasks.test]
+description = "Run tests using nextest"
+command = "cargo"
+args = ["nextest", "run"]
+
+[tasks.audit]
+description = "Run cargo-audit for security checks"
+command = "cargo"
+args = ["audit"]
+
+[tasks.deny]
+description = "Run cargo-deny for licenses and dependency hygiene"
+command = "cargo"
+args = ["deny", "check"]
+
+[tasks.check]
+description = "Full project check: lint, test, audit, deny"
+dependencies = ["lint", "test", "audit", "deny"]
+
+[tasks.changelog]
+description = "Generate changelog from git commits"
+command = "git-cliff"
+args = ["-o", "CHANGELOG.md"]
+
+[tasks.changelog-unreleased]
+description = "Preview unreleased changelog entries"
+command = "git-cliff"
+args = ["--unreleased"]

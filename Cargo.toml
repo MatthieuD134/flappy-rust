@@ -1,0 +1,15 @@
+[package]
+name = "rust-template"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+description = "A Rust project template with pre-configured development tooling"
+repository = "https://github.com/MatthieuD134/rust-template"
+readme = "README.md"
+
+[dependencies]
+
+[dev-dependencies.cargo-husky]
+version = "1.5"
+default-features = false
+features = ["user-hooks"]

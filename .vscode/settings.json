@@ -1,0 +1,14 @@
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "always",
+    "source.organizeImports": "always"
+  },
+  "rust-analyzer.check.command": "clippy",
+  "editor.defaultFormatter": "rust-lang.rust-analyzer",
+
+  // Language-specific formatters
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml"
+  },
+}

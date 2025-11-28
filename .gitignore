@@ -1,0 +1,84 @@
+# =============================================================================
+# Rust
+# =============================================================================
+/target/
+**/*.rs.bk
+Cargo.lock
+
+# Note: Uncomment the line above if this is a library crate
+# Keep Cargo.lock committed for binary/application crates
+# See: https://doc.rust-lang.org/cargo/guide/cargo-toml-vs-cargo-lock.html
+
+# =============================================================================
+# IDE and Editors
+# =============================================================================
+# VS Code (keep .vscode for shared settings, ignore personal files)
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/cspell.json
+
+# JetBrains IDEs (IntelliJ, CLion, RustRover)
+.idea/
+*.iml
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+.dir-locals.el
+
+# Sublime Text
+*.sublime-workspace
+
+# =============================================================================
+# Operating System
+# =============================================================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# =============================================================================
+# Build and Coverage
+# =============================================================================
+# Code coverage
+*.profraw
+*.profdata
+lcov.info
+tarpaulin-report.html
+coverage/
+
+# Benchmarks
+criterion/
+
+# =============================================================================
+# Miscellaneous
+# =============================================================================
+# Environment files (may contain secrets)
+.env
+.env.local
+.env.*.local
+
+# Local configuration overrides
+*.local.toml
+
+# Temporary files
+*.tmp
+*.temp
+*.log

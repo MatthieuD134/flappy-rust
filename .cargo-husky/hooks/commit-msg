@@ -1,0 +1,4 @@
+#!/bin/sh
+# commit-msg hook
+set -e
+cargo make validate-commit-msg "$1"

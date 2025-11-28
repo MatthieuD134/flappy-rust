@@ -1,0 +1,11 @@
+# .rumdl.toml
+# Configuration for rumdl Markdown linter
+# See: https://github.com/plumenator/rumdl
+
+[global]
+# Disable rules that are too strict for documentation/prompts
+# - MD013: Line length - not critical for markdown readability
+# - MD036: Emphasis used instead of heading - prompts use bold for instructional text
+disable = ["MD013", "MD036"]
+# Paths to exclude from linting
+exclude = ["target/**", "CHANGELOG.md"]

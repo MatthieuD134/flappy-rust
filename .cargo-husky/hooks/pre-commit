@@ -1,0 +1,4 @@
+#!/bin/sh
+# pre-commit hook
+set -e
+cargo make format-staged

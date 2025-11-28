@@ -1,0 +1,43 @@
+# rustfmt.toml
+# Rust formatting configuration
+# See: https://rust-lang.github.io/rustfmt/
+
+# Use the 2024 edition formatting rules
+edition = "2024"
+
+# Maximum line width
+max_width = 100
+
+# Number of spaces per tab
+tab_spaces = 4
+
+# Use spaces instead of tabs
+hard_tabs = false
+
+# Unix-style line endings
+newline_style = "Unix"
+
+# Use field init shorthand where possible
+use_field_init_shorthand = true
+
+# Use try! macro shorthand (?)
+use_try_shorthand = true
+
+# Reorder imports alphabetically
+reorder_imports = true
+
+# Reorder module declarations alphabetically
+reorder_modules = true
+
+# -----------------------------------------------------------------------------
+# Unstable options (uncomment if using nightly rustfmt)
+# -----------------------------------------------------------------------------
+# group_imports = "StdExternalCrate"
+# imports_granularity = "Module"
+# format_code_in_doc_comments = true
+# normalize_doc_attributes = true
+# format_macro_matchers = true
+# format_macro_bodies = true
+# wrap_comments = true
+# normalize_comments = true
+# format_strings = false

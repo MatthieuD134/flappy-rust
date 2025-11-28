@@ -1,0 +1,149 @@
+# clippy.toml
+# Clippy lint configuration
+# See: https://doc.rust-lang.org/clippy/lint_configuration.html
+#
+# All options below use their default values.
+# Uncomment and modify as needed for your project.
+
+# =============================================================================
+# MSRV (Minimum Supported Rust Version)
+# =============================================================================
+# Defaults to `rust-version` in Cargo.toml if not set
+# msrv = "1.85.0"
+
+# =============================================================================
+# Absolute Paths
+# =============================================================================
+absolute-paths-allowed-crates = []
+absolute-paths-max-segments = 2
+
+# =============================================================================
+# Unsafe Blocks Documentation
+# =============================================================================
+accept-comment-above-attributes = true
+accept-comment-above-statement = true
+
+# =============================================================================
+# Allow/Disallow Behaviors
+# =============================================================================
+allow-comparison-to-zero = true
+allow-dbg-in-tests = false
+allow-exact-repetitions = true
+allow-expect-in-consts = true
+allow-expect-in-tests = false
+allow-indexing-slicing-in-tests = false
+allow-mixed-uninlined-format-args = true
+allow-one-hash-in-raw-strings = false
+allow-panic-in-tests = false
+allow-print-in-tests = false
+allow-private-module-inception = false
+allow-renamed-params-for = [
+  "core::convert::From",
+  "core::convert::TryFrom",
+  "core::str::FromStr",
+]
+allow-unwrap-in-consts = true
+allow-unwrap-in-tests = false
+allow-useless-vec-in-tests = false
+
+# =============================================================================
+# Allowed Items
+# =============================================================================
+allowed-dotfiles = []
+allowed-duplicate-crates = []
+allowed-idents-below-min-chars = ["i", "j", "x", "y", "z", "w", "n"]
+allowed-prefixes = ["to", "as", "into", "from", "try_into", "try_from"]
+allowed-scripts = ["Latin"]
+allowed-wildcard-imports = []
+
+# =============================================================================
+# Arithmetic
+# =============================================================================
+arithmetic-side-effects-allowed = []
+arithmetic-side-effects-allowed-binary = []
+arithmetic-side-effects-allowed-unary = []
+
+# =============================================================================
+# Size Thresholds
+# =============================================================================
+array-size-threshold = 16384
+enum-variant-size-threshold = 200
+future-size-threshold = 16384
+large-error-threshold = 128
+literal-representation-threshold = 16384
+max-include-file-size = 1000000
+pass-by-value-size-limit = 256
+stack-size-threshold = 512000
+too-large-for-stack = 200
+type-complexity-threshold = 250
+unnecessary-box-size = 128
+vec-box-size-threshold = 4096
+
+# =============================================================================
+# Complexity Thresholds
+# =============================================================================
+cognitive-complexity-threshold = 25
+excessive-nesting-threshold = 0
+too-many-arguments-threshold = 7
+too-many-lines-threshold = 100
+
+# =============================================================================
+# Naming and Style
+# =============================================================================
+disallowed-names = ["foo", "baz", "quux"]
+enum-variant-name-threshold = 3
+max-fn-params-bools = 3
+max-struct-bools = 3
+max-trait-bounds = 3
+min-ident-chars-threshold = 1
+single-char-binding-names-threshold = 4
+struct-field-name-threshold = 3
+
+# =============================================================================
+# API and Breaking Changes
+# =============================================================================
+avoid-breaking-exported-api = true
+cargo-ignore-publish = false
+
+# =============================================================================
+# Checks
+# =============================================================================
+check-incompatible-msrv-in-tests = false
+check-inconsistent-struct-field-initializers = false
+check-private-items = false
+
+# =============================================================================
+# Documentation
+# =============================================================================
+const-literal-digits-threshold = 30
+missing-docs-allow-unused = false
+missing-docs-in-crate-items = false
+
+# =============================================================================
+# Disallowed Items (empty by default)
+# =============================================================================
+disallowed-macros = []
+disallowed-methods = []
+disallowed-types = []
+
+# =============================================================================
+# Miscellaneous
+# =============================================================================
+await-holding-invalid-types = []
+enable-raw-pointer-heuristic-for-send = true
+enforce-iter-loop-reborrow = false
+enforced-import-renames = []
+ignore-interior-mutability = ["bytes::Bytes"]
+lint-commented-code = false
+matches-for-let-else = "WellKnownTypes"
+max-suggested-slice-pattern-length = 3
+pub-underscore-fields-behavior = "PubliclyExported"
+semicolon-inside-block-ignore-singleline = false
+semicolon-outside-block-ignore-multiline = false
+standard-macro-braces = []
+suppress-restriction-lint-in-const = false
+unreadable-literal-lint-fractions = true
+upper-case-acronyms-aggressive = false
+verbose-bit-mask-threshold = 1
+warn-on-all-wildcard-imports = false
+warn-unsafe-macro-metavars-in-private-macros = false

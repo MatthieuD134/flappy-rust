@@ -1,0 +1,4 @@
+#!/bin/sh
+# pre-push hook
+set -e
+cargo make check

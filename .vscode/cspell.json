@@ -1,0 +1,33 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "clippy",
+    "commitlint",
+    "eprintln",
+    "mockall",
+    "msrv",
+    "nextest",
+    "println",
+    "proptest",
+    "reqwest",
+    "rumdl",
+    "rustfmt",
+    "rustup",
+    "serde",
+    "stdout",
+    "taplo",
+    "thiserror",
+    "tokio",
+    "toml"
+  ],
+  "ignorePaths": [
+    "target/**",
+    "Cargo.lock",
+    "*.toml"
+  ],
+  "enableFiletypes": [
+    "rust",
+    "markdown"
+  ]
+}

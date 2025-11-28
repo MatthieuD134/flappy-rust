@@ -1,0 +1,79 @@
+# deny.toml
+# Configuration for cargo-deny
+# See: https://embarkstudios.github.io/cargo-deny/
+
+[graph]
+# Common tier-1 targets - adjust for your project's needs
+targets = [
+  "x86_64-unknown-linux-gnu",
+  "aarch64-unknown-linux-gnu",
+  "x86_64-unknown-linux-musl",
+  "aarch64-apple-darwin",
+  "x86_64-apple-darwin",
+  "x86_64-pc-windows-msvc",
+]
+all-features = true
+
+# =============================================================================
+# Advisories - Security vulnerability checking
+# =============================================================================
+[advisories]
+version = 2
+# Ignore specific advisories (add RUSTSEC IDs here if needed)
+ignore = []
+
+# =============================================================================
+# Licenses - License compliance checking
+# =============================================================================
+[licenses]
+version = 2
+# We want really high confidence when inferring licenses from text
+confidence-threshold = 0.93
+# List of allowed licenses (SPDX identifiers)
+allow = [
+  "MIT",
+  "Apache-2.0",
+  "Apache-2.0 WITH LLVM-exception",
+  "BSD-2-Clause",
+  "BSD-3-Clause",
+  "ISC",
+  "Zlib",
+  "0BSD",
+  "Unicode-3.0",
+  "Unicode-DFS-2016",
+  "CC0-1.0",
+  "Unlicense",
+]
+
+# =============================================================================
+# Bans - Dependency banning and duplicate detection
+# =============================================================================
+[bans]
+# Lint level for multiple versions of the same crate
+multiple-versions = "warn"
+# Lint level for wildcard dependencies
+wildcards = "deny"
+# Highlight the dependency chain that pulled in duplicate versions
+highlight = "all"
+
+# Crates that are explicitly denied
+deny = [
+  # Prefer rustls over openssl for TLS
+  # { crate = "openssl", use-instead = "rustls" },
+  # { crate = "openssl-sys", use-instead = "rustls" },
+]
+
+# Crates to skip when checking for duplicates
+# skip = []
+
+# Tree of dependencies to skip
+# skip-tree = []
+
+# =============================================================================
+# Sources - Allowed dependency sources
+# =============================================================================
+[sources]
+# Lint level for crates not from an allowed source
+unknown-registry = "deny"
+# Lint level for crates not from an allowed git source
+unknown-git = "deny"

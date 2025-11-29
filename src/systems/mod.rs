@@ -24,6 +24,6 @@ pub use pipes::{pipe_movement, pipe_spawner};
 pub use score::update_score;
 pub use setup::setup;
 pub use viewport::{
-    update_edge_flash_positions, update_fill_screen_entities, update_fill_width_entities,
-    update_viewport,
+    initial_viewport_setup, update_edge_flash_positions, update_fill_screen_entities,
+    update_fill_width_entities, update_viewport,
 };

@@ -49,6 +49,21 @@ description = "Validate commit message follows Conventional Commits format"
 command = "commitlint"
 args = ["--edit", "${@}"]
 
+[tasks.ios-check]
+description = "Check if the project builds for iOS targets"
+command = "cargo"
+args = ["check", "--target", "aarch64-apple-ios"]
+
+[tasks.gen-ios]
+description = "Generate iOS Xcode project"
+script = [
+  "cd ios",
+  "xcodegen generate",
+  "cd ..",
+  "echo 'iOS project generated in ios/FlappyRust.xcodeproj'",
+]
+
+
 [tasks.lint]
 description = "Run clippy (workspace + all targets)"
 command = "cargo"

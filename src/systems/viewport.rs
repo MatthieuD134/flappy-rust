@@ -4,7 +4,7 @@
 
 use bevy::camera::{Projection, ScalingMode};
 use bevy::prelude::*;
-use bevy::window::WindowResized;
+use bevy::window::{PrimaryWindow, WindowResized};
 
 use crate::components::{EdgeFlash, EdgeType, FillScreen, Ground, MainCamera, Sky};
 use crate::constants::{GROUND_HEIGHT, SCORE_FLASH_BORDER_WIDTH, SCORE_FLASH_GRADIENT_STRIPS};
@@ -25,6 +25,28 @@ pub fn update_viewport(
                 ortho.scaling_mode = ScalingMode::FixedVertical {
                     viewport_height: viewport.height,
                 };
+            }
+        }
+    }
+}
+
+/// System to update viewport on startup to ensure it matches initial window size.
+pub fn initial_viewport_setup(
+    window_query: Query<&Window, With<PrimaryWindow>>,
+    mut viewport: ResMut<GameViewport>,
+    mut camera_query: Query<&mut Projection, With<MainCamera>>,
+) {
+    if let Some(window) = window_query.iter().next() {
+        // Only update if window has valid dimensions
+        if window.width() > 0.0 && window.height() > 0.0 {
+            viewport.update_from_window(window.width(), window.height());
+
+            for mut projection in camera_query.iter_mut() {
+                if let Projection::Orthographic(ref mut ortho) = *projection {
+                    ortho.scaling_mode = ScalingMode::FixedVertical {
+                        viewport_height: viewport.height,
+                    };
+                }
             }
         }
     }

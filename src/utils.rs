@@ -15,7 +15,7 @@ static SEED: AtomicU64 = AtomicU64::new(0);
 ///
 /// # Examples
 ///
-/// ```ignore
+/// ```
 /// let value = rand_f32();
 /// assert!(value >= 0.0 && value < 1.0);
 /// ```

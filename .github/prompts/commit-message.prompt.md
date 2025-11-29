@@ -3,9 +3,34 @@ agent: 'agent'
 description: 'Generate conventional commit messages for Flappy Rust changes'
 ---
 
-# Generate Commit Message
+# Generate and Create Commit
 
-Analyze staged changes and generate a conventional commit message.
+Analyze changes, generate a conventional commit message, and create the commit.
+
+## Process
+
+1. Check for unstaged changes with `git status`
+2. Stage all changes with `git add -A` if there are unstaged files
+3. Analyze the staged diff with `git diff --cached`
+4. Generate a commit message following the format below
+5. Create the commit with `git commit -m "message"` (use multi-line for body)
+
+## Commit Command Examples
+
+Single line:
+
+```bash
+git commit -m "feat(bird): add double jump ability"
+```
+
+With body:
+
+```bash
+git commit -m "feat(bird): add double jump ability
+
+Allows the bird to jump again while in mid-air.
+Limited to one extra jump per flap cycle."
+```
 
 ## Format
 
@@ -57,11 +82,3 @@ Use the module or system being changed:
 - `perf(pipes): use with_capacity for pipe batch spawning`
 - `chore(deps): update bevy to 0.18`
 - `docs(readme): add gameplay screenshot`
-
-## Process
-
-1. Analyze the git diff
-2. Determine type based on nature of change
-3. Identify scope from affected module/system
-4. Write concise description
-5. Add body if change needs explanation

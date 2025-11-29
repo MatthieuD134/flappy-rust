@@ -19,7 +19,8 @@
     "taplo",
     "thiserror",
     "tokio",
-    "toml"
+    "toml",
+    "hitbox"
   ],
   "ignorePaths": [
     "target/**",

@@ -43,6 +43,7 @@ TOOLS=(
   "cargo-audit:cargo-audit:^0.22:cargo audit --version"
   "cargo-deny:cargo-deny:^0.18:cargo deny --version"
   "commitlint:commitlint-rs:^0.2:commitlint --version"
+  "cargo-bundle:cargo-bundle:^0.9:cargo bundle --version"
 )
 
 # Function to convert ^semver to minimal version

@@ -4,8 +4,16 @@ version = "0.1.0"
 edition = "2024"
 license = "MIT"
 description = "A Flappy Bird clone built with Bevy"
-repository = "https://github.com/MatthieuD134/rust-template"
+repository = "https://github.com/MatthieuD134/flappy-rust"
 readme = "README.md"
+
+[package.metadata.bundle]
+name = "Flappy Rust"
+identifier = "com.matthieud134.flappy-rust"
+icon = ["assets/icons/icon.icns"]
+category = "Game"
+short_description = "A Flappy Bird clone built with Bevy"
+copyright = "Copyright © 2025 Matthieu Daulhiac"
 
 [dependencies]
 bevy = "0.17.3"

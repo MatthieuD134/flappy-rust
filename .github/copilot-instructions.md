@@ -48,7 +48,7 @@ src/
 All tunable values are in `src/constants.rs`. Adjust these for gameplay balance:
 
 - `GRAVITY`, `FLAP_STRENGTH` - Bird physics
-- `PIPE_GAP_MIN/MAX`, `PIPE_SPEED` - Difficulty
+- `PIPE_GAP_MIN/MAX`, `WORLD_SCROLL_SPEED` - Difficulty
 - `BIRD_SIZE`, `PIPE_WIDTH` - Collision bounds
 
 ### Adding Features

@@ -6,14 +6,30 @@ use bevy::prelude::*;
 
 use crate::components::Bird;
 use crate::constants::{FLAP_STRENGTH, GRAVITY, MAX_TILT_DOWN, MAX_TILT_UP, TILT_SPEED};
+use crate::resources::FlapEvent;
 
 /// Handles bird flapping when space is pressed.
 ///
 /// Sets the bird's vertical velocity to the flap strength, causing it to rise.
-pub fn bird_flap(keyboard_input: Res<ButtonInput<KeyCode>>, mut query: Query<&mut Bird>) {
-    if keyboard_input.just_pressed(KeyCode::Space) {
-        for mut bird in query.iter_mut() {
+/// Also sends a FlapEvent for visual effects.
+pub fn bird_flap(
+    keyboard_input: Res<ButtonInput<KeyCode>>,
+    mouse_input: Res<ButtonInput<MouseButton>>,
+    touches: Res<Touches>,
+    mut query: Query<(&mut Bird, &Transform)>,
+    mut flap_events: MessageWriter<FlapEvent>,
+) {
+    let should_flap = keyboard_input.just_pressed(KeyCode::Space)
+        || mouse_input.just_pressed(MouseButton::Left)
+        || touches.any_just_pressed();
+
+    if should_flap {
+        for (mut bird, transform) in query.iter_mut() {
             bird.velocity = FLAP_STRENGTH;
+            // Send flap event for visual effects
+            flap_events.write(FlapEvent {
+                position: transform.translation,
+            });
         }
     }
 }

@@ -40,3 +40,61 @@ pub struct ScoreText;
 /// Marker component for instruction/message text UI element.
 #[derive(Component)]
 pub struct InstructionText;
+
+/// Marker component for the main camera.
+#[derive(Component)]
+pub struct MainCamera;
+
+/// Component for screen flash overlay.
+#[derive(Component)]
+pub struct ScreenFlash;
+
+/// Component for edge flash overlays (score effect).
+/// The alpha_multiplier controls the gradient fade (1.0 at edge, 0.0 at center).
+#[derive(Component)]
+pub struct EdgeFlash {
+    /// Alpha multiplier for gradient effect (0.0 to 1.0)
+    pub alpha_multiplier: f32,
+}
+
+/// Component for particle effects.
+#[derive(Component)]
+pub struct Particle {
+    /// Particle drift velocity (local movement)
+    pub velocity: Vec2,
+    /// World scroll velocity (moves with pipes, stops on game over)
+    pub world_velocity: Vec2,
+    /// Particle lifetime remaining
+    pub lifetime: f32,
+    /// Initial lifetime for fade calculation
+    pub initial_lifetime: f32,
+}
+
+/// Marker component for flap particles (small dust/air puffs).
+#[derive(Component)]
+pub struct FlapParticle;
+
+/// Marker component for death particles (explosion effect).
+#[derive(Component)]
+pub struct DeathParticle;
+
+/// Component for animating score text pop effect.
+#[derive(Component)]
+pub struct ScorePopAnimation {
+    /// Current animation time
+    pub timer: f32,
+    /// Total animation duration
+    pub duration: f32,
+}
+
+/// Component for bird squash/stretch animation.
+#[derive(Component)]
+pub struct BirdSquashStretch {
+    /// Current animation time
+    pub timer: f32,
+    /// Animation duration
+    pub duration: f32,
+    /// Whether this is a squash (true) or stretch (false)
+    #[allow(dead_code)]
+    pub is_squash: bool,
+}

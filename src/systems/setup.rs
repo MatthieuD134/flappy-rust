@@ -5,8 +5,13 @@
 use bevy::prelude::*;
 use bevy::text::{Justify, LineBreak};
 
-use crate::components::{Bird, Ground, InstructionText, ScoreText};
-use crate::constants::{BIRD_SIZE, GROUND_HEIGHT, WINDOW_HEIGHT, WINDOW_WIDTH};
+use crate::components::{
+    Bird, EdgeFlash, Ground, InstructionText, MainCamera, ScoreText, ScreenFlash,
+};
+use crate::constants::{
+    BIRD_SIZE, GROUND_HEIGHT, SCORE_FLASH_BORDER_WIDTH, SCORE_FLASH_GRADIENT_STRIPS,
+    SCORE_FLASH_SOLID_RATIO, WINDOW_HEIGHT, WINDOW_WIDTH,
+};
 
 /// Sets up the initial game entities.
 ///
@@ -17,11 +22,13 @@ pub fn setup(mut commands: Commands) {
     spawn_ground(&mut commands);
     spawn_sky(&mut commands);
     spawn_ui(&mut commands);
+    spawn_screen_flash(&mut commands);
+    spawn_edge_flashes(&mut commands);
 }
 
-/// Spawns the 2D camera.
+/// Spawns the 2D camera with MainCamera marker for screen shake.
 fn spawn_camera(commands: &mut Commands) {
-    commands.spawn(Camera2d);
+    commands.spawn((Camera2d, MainCamera));
 }
 
 /// Spawns the bird entity (yellow square).
@@ -88,4 +95,84 @@ fn spawn_ui(commands: &mut Commands) {
         Transform::from_xyz(0.0, 0.0, 2.0),
         InstructionText,
     ));
+}
+
+/// Spawns the screen flash overlay for visual effects.
+fn spawn_screen_flash(commands: &mut Commands) {
+    commands.spawn((
+        Sprite {
+            color: Color::srgba(0.0, 0.0, 0.0, 0.0),
+            custom_size: Some(Vec2::new(WINDOW_WIDTH * 2.0, WINDOW_HEIGHT * 2.0)),
+            ..default()
+        },
+        Transform::from_xyz(0.0, 0.0, 10.0), // High z-index to be on top
+        ScreenFlash,
+    ));
+}
+
+/// Spawns edge flash overlays for score effect (4 edges with gradient fade).
+fn spawn_edge_flashes(commands: &mut Commands) {
+    let total_border = SCORE_FLASH_BORDER_WIDTH;
+    let strip_width = total_border / SCORE_FLASH_GRADIENT_STRIPS as f32;
+
+    for i in 0..SCORE_FLASH_GRADIENT_STRIPS {
+        // t goes from 0.0 at edge to 1.0 at center
+        let t = i as f32 / SCORE_FLASH_GRADIENT_STRIPS as f32;
+
+        // Keep solid for the first portion, then fade with quadratic falloff
+        let alpha_multiplier = if t < SCORE_FLASH_SOLID_RATIO {
+            1.0 // Solid section at the edge
+        } else {
+            // Remap t from [SOLID_RATIO, 1.0] to [0.0, 1.0] for the fade
+            let fade_t = (t - SCORE_FLASH_SOLID_RATIO) / (1.0 - SCORE_FLASH_SOLID_RATIO);
+            let fade = 1.0 - fade_t;
+            fade * fade // Quadratic falloff
+        };
+
+        let strip_offset = i as f32 * strip_width + strip_width / 2.0;
+
+        // Top edge strips
+        commands.spawn((
+            Sprite {
+                color: Color::srgba(0.0, 0.0, 0.0, 0.0),
+                custom_size: Some(Vec2::new(WINDOW_WIDTH, strip_width)),
+                ..default()
+            },
+            Transform::from_xyz(0.0, WINDOW_HEIGHT / 2.0 - strip_offset, 9.0),
+            EdgeFlash { alpha_multiplier },
+        ));
+
+        // Bottom edge strips
+        commands.spawn((
+            Sprite {
+                color: Color::srgba(0.0, 0.0, 0.0, 0.0),
+                custom_size: Some(Vec2::new(WINDOW_WIDTH, strip_width)),
+                ..default()
+            },
+            Transform::from_xyz(0.0, -WINDOW_HEIGHT / 2.0 + strip_offset, 9.0),
+            EdgeFlash { alpha_multiplier },
+        ));
+
+        // Left edge strips
+        commands.spawn((
+            Sprite {
+                color: Color::srgba(0.0, 0.0, 0.0, 0.0),
+                custom_size: Some(Vec2::new(strip_width, WINDOW_HEIGHT)),
+                ..default()
+            },
+            Transform::from_xyz(-WINDOW_WIDTH / 2.0 + strip_offset, 0.0, 9.0),
+            EdgeFlash { alpha_multiplier },
+        ));
+
+        // Right edge strips
+        commands.spawn((
+            Sprite {
+                color: Color::srgba(0.0, 0.0, 0.0, 0.0),
+                custom_size: Some(Vec2::new(strip_width, WINDOW_HEIGHT)),
+                ..default()
+            },
+            Transform::from_xyz(WINDOW_WIDTH / 2.0 - strip_offset, 0.0, 9.0),
+            EdgeFlash { alpha_multiplier },
+        ));
+    }
 }

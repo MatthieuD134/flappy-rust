@@ -77,7 +77,7 @@ Edit `src/constants.rs` to adjust:
 
 - `GRAVITY` / `FLAP_STRENGTH` - Bird physics
 - `PIPE_GAP_MIN` / `PIPE_GAP_MAX` - Difficulty
-- `PIPE_SPEED` / `PIPE_SPAWN_TIME` - Pacing
+- `WORLD_SCROLL_SPEED` / `PIPE_SPAWN_TIME` - Pacing
 
 ## License
 

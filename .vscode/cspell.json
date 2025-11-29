@@ -20,7 +20,8 @@
     "thiserror",
     "tokio",
     "toml",
-    "hitbox"
+    "hitbox",
+    "srgba"
   ],
   "ignorePaths": [
     "target/**",

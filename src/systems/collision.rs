@@ -6,6 +6,7 @@ use bevy::prelude::*;
 
 use crate::components::{Bird, InstructionText, Pipe};
 use crate::constants::{BIRD_SIZE, GROUND_HEIGHT, WINDOW_HEIGHT};
+use crate::resources::DeathEvent;
 use crate::states::GameState;
 
 /// Checks for collisions between bird and pipes/ground/ceiling.
@@ -16,6 +17,7 @@ pub fn check_collisions(
     pipe_query: Query<(&Transform, &Sprite), With<Pipe>>,
     mut next_state: ResMut<NextState<GameState>>,
     mut instruction_query: Query<(&mut Visibility, &mut Text2d), With<InstructionText>>,
+    mut death_events: MessageWriter<DeathEvent>,
 ) {
     let Ok(bird_transform) = bird_query.single() else {
         return;
@@ -24,19 +26,34 @@ pub fn check_collisions(
 
     // Check ground collision
     if check_ground_collision(bird_pos) {
-        trigger_game_over(&mut next_state, &mut instruction_query);
+        trigger_game_over(
+            &mut next_state,
+            &mut instruction_query,
+            &mut death_events,
+            bird_pos,
+        );
         return;
     }
 
     // Check ceiling collision
     if check_ceiling_collision(bird_pos) {
-        trigger_game_over(&mut next_state, &mut instruction_query);
+        trigger_game_over(
+            &mut next_state,
+            &mut instruction_query,
+            &mut death_events,
+            bird_pos,
+        );
         return;
     }
 
     // Check pipe collisions
     if check_pipe_collisions(bird_pos, &pipe_query) {
-        trigger_game_over(&mut next_state, &mut instruction_query);
+        trigger_game_over(
+            &mut next_state,
+            &mut instruction_query,
+            &mut death_events,
+            bird_pos,
+        );
     }
 }
 
@@ -83,8 +100,14 @@ fn check_aabb_collision(pos_a: Vec3, size_a: f32, pos_b: Vec3, size_b: Vec2) -> 
 fn trigger_game_over(
     next_state: &mut ResMut<NextState<GameState>>,
     instruction_query: &mut Query<(&mut Visibility, &mut Text2d), With<InstructionText>>,
+    death_events: &mut MessageWriter<DeathEvent>,
+    bird_pos: Vec3,
 ) {
     next_state.set(GameState::GameOver);
+
+    // Send death event for visual effects
+    death_events.write(DeathEvent { position: bird_pos });
+
     for (mut visibility, mut text) in instruction_query.iter_mut() {
         *visibility = Visibility::Visible;
         text.0 = "Game Over!\nPress SPACE to restart".to_string();

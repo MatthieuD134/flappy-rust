@@ -5,7 +5,7 @@
 use bevy::prelude::*;
 
 use crate::components::{Bird, Pipe, ScoreText, Scored};
-use crate::resources::Score;
+use crate::resources::{Score, ScoreEvent};
 
 /// Updates the score when bird passes pipes.
 ///
@@ -15,6 +15,7 @@ pub fn update_score(
     mut pipe_query: Query<(&Transform, &mut Scored), With<Pipe>>,
     mut score: ResMut<Score>,
     mut text_query: Query<&mut Text2d, With<ScoreText>>,
+    mut score_events: MessageWriter<ScoreEvent>,
 ) {
     let Ok(bird_transform) = bird_query.single() else {
         return;
@@ -25,6 +26,9 @@ pub fn update_score(
         if !scored.0 && pipe_transform.translation.x < bird_x {
             scored.0 = true;
             score.increment();
+
+            // Send score event for visual effects
+            score_events.write(ScoreEvent);
 
             for mut text in text_query.iter_mut() {
                 text.0 = score.0.to_string();

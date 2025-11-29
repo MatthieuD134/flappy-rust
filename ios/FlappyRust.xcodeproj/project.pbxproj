@@ -201,21 +201,31 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				"LIBRARY_SEARCH_PATHS[sdk=iphoneos*]" = (
+					"$(inherited)",
+					"${PROJECT_DIR}/../target/aarch64-apple-ios/debug",
+				);
+				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = (
+					"$(inherited)",
+					"${PROJECT_DIR}/../target/aarch64-apple-ios-sim/debug",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
-					"-L${PROJECT_DIR}/../target/aarch64-apple-ios/debug",
-					"-L${PROJECT_DIR}/../target/aarch64-apple-ios-sim/debug",
 					"-lflappy_rust",
 					"-framework",
 					AVFoundation,
 					"-framework",
 					AudioToolbox,
 					"-framework",
+					CoreFoundation,
+					"-framework",
 					CoreGraphics,
 					"-framework",
 					CoreMedia,
 					"-framework",
 					CoreVideo,
+					"-framework",
+					Foundation,
 					"-framework",
 					QuartzCore,
 					"-framework",
@@ -224,6 +234,7 @@
 					Metal,
 					"-framework",
 					GameController,
+					"-lobjc",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.matthieud134.flappy-rust";
 				SDKROOT = iphoneos;
@@ -306,21 +317,31 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				"LIBRARY_SEARCH_PATHS[sdk=iphoneos*]" = (
+					"$(inherited)",
+					"${PROJECT_DIR}/../target/aarch64-apple-ios/debug",
+				);
+				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = (
+					"$(inherited)",
+					"${PROJECT_DIR}/../target/aarch64-apple-ios-sim/debug",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
-					"-L${PROJECT_DIR}/../target/aarch64-apple-ios/debug",
-					"-L${PROJECT_DIR}/../target/aarch64-apple-ios-sim/debug",
 					"-lflappy_rust",
 					"-framework",
 					AVFoundation,
 					"-framework",
 					AudioToolbox,
 					"-framework",
+					CoreFoundation,
+					"-framework",
 					CoreGraphics,
 					"-framework",
 					CoreMedia,
 					"-framework",
 					CoreVideo,
+					"-framework",
+					Foundation,
 					"-framework",
 					QuartzCore,
 					"-framework",
@@ -329,6 +350,7 @@
 					Metal,
 					"-framework",
 					GameController,
+					"-lobjc",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.matthieud134.flappy-rust";
 				SDKROOT = iphoneos;

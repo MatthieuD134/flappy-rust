@@ -18,7 +18,7 @@ copyright = "Copyright © 2025 Matthieu Daulhiac"
 [lib]
 name = "flappy_rust"
 path = "src/lib.rs"
-crate-type = ["staticlib", "cdylib", "rlib"]
+crate-type = ["staticlib", "rlib"]
 
 [dependencies]
 bevy = "0.17.3"

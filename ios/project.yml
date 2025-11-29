@@ -22,36 +22,43 @@ targets:
       ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
       PRODUCT_BUNDLE_IDENTIFIER: com.matthieud134.flappy-rust
       ENABLE_BITCODE: NO
+      "LIBRARY_SEARCH_PATHS[sdk=iphoneos*]":
+        - $(inherited)
+        - "${PROJECT_DIR}/../target/aarch64-apple-ios/debug"
+      "LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]":
+        - $(inherited)
+        - "${PROJECT_DIR}/../target/aarch64-apple-ios-sim/debug"
       OTHER_LDFLAGS:
         - $(inherited)
-        - -L${PROJECT_DIR}/../target/aarch64-apple-ios/debug
-        - -L${PROJECT_DIR}/../target/aarch64-apple-ios-sim/debug
         - -lflappy_rust
         - -framework AVFoundation
         - -framework AudioToolbox
+        - -framework CoreFoundation
         - -framework CoreGraphics
         - -framework CoreMedia
         - -framework CoreVideo
+        - -framework Foundation
         - -framework QuartzCore
         - -framework UIKit
         - -framework Metal
         - -framework GameController
+        - -lobjc
     preBuildScripts:
       - name: Build Rust Library
         basedOnDependencyAnalysis: false
         script: |
           set -e  # Fail on error
           echo "🚀 Starting Rust Build Phase..."
-          
+
           # Add Cargo to PATH
           export PATH="$HOME/.cargo/bin:$PATH"
-          
+
           # Go to project root
           cd ..
-          
+
           echo "📂 Working directory: $(pwd)"
           echo "📱 Platform: $PLATFORM_NAME"
-          
+
           if [ "$PLATFORM_NAME" = "iphonesimulator" ]; then
               echo "🛠 Building for iOS Simulator..."
               cargo build --target aarch64-apple-ios-sim --verbose
@@ -59,5 +66,5 @@ targets:
               echo "🛠 Building for iOS Device..."
               cargo build --target aarch64-apple-ios --verbose
           fi
-          
+
           echo "✅ Rust Build Complete!"

@@ -26,6 +26,7 @@ use systems::{
     update_score_pop, update_screen_flash, update_screen_shake, update_viewport,
 };
 
+#[cfg(target_os = "ios")]
 #[unsafe(no_mangle)]
 pub extern "C" fn main(_argc: i32, _argv: *const *const u8) -> i32 {
     run();

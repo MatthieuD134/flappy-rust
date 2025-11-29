@@ -22,3 +22,19 @@ bevy = "0.17.3"
 version = "1.5"
 default-features = false
 features = ["user-hooks"]
+
+# Enable a small amount of optimization in the dev profile.
+[profile.dev]
+opt-level = 1
+
+# Enable a large amount of optimization in the dev profile for dependencies.
+[profile.dev.package."*"]
+opt-level = 3
+
+# Optimized release profile for iOS builds.
+# Uses LTO and single codegen unit for smaller binary size and better performance.
+[profile.ios-release]
+inherits = "release"
+opt-level = "z"
+lto = "fat"
+codegen-units = 1

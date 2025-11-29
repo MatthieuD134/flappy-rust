@@ -5,8 +5,8 @@
 use bevy::prelude::*;
 
 use crate::components::{Bird, InstructionText, Pipe};
-use crate::constants::{BIRD_SIZE, GROUND_HEIGHT, WINDOW_HEIGHT};
-use crate::resources::DeathEvent;
+use crate::constants::{BIRD_SIZE, GROUND_HEIGHT};
+use crate::resources::{DeathEvent, GameViewport};
 use crate::states::GameState;
 
 /// Checks for collisions between bird and pipes/ground/ceiling.
@@ -18,6 +18,7 @@ pub fn check_collisions(
     mut next_state: ResMut<NextState<GameState>>,
     mut instruction_query: Query<(&mut Visibility, &mut Text2d), With<InstructionText>>,
     mut death_events: MessageWriter<DeathEvent>,
+    viewport: Res<GameViewport>,
 ) {
     let Ok(bird_transform) = bird_query.single() else {
         return;
@@ -25,7 +26,7 @@ pub fn check_collisions(
     let bird_pos = bird_transform.translation;
 
     // Check ground collision
-    if check_ground_collision(bird_pos) {
+    if check_ground_collision(bird_pos, &viewport) {
         trigger_game_over(
             &mut next_state,
             &mut instruction_query,
@@ -36,7 +37,7 @@ pub fn check_collisions(
     }
 
     // Check ceiling collision
-    if check_ceiling_collision(bird_pos) {
+    if check_ceiling_collision(bird_pos, &viewport) {
         trigger_game_over(
             &mut next_state,
             &mut instruction_query,
@@ -58,14 +59,14 @@ pub fn check_collisions(
 }
 
 /// Checks if the bird has hit the ground.
-fn check_ground_collision(bird_pos: Vec3) -> bool {
-    let ground_top = -WINDOW_HEIGHT / 2.0 + GROUND_HEIGHT;
+fn check_ground_collision(bird_pos: Vec3, viewport: &GameViewport) -> bool {
+    let ground_top = -viewport.half_height() + GROUND_HEIGHT;
     bird_pos.y - BIRD_SIZE / 2.0 <= ground_top
 }
 
 /// Checks if the bird has hit the ceiling.
-fn check_ceiling_collision(bird_pos: Vec3) -> bool {
-    bird_pos.y + BIRD_SIZE / 2.0 >= WINDOW_HEIGHT / 2.0
+fn check_ceiling_collision(bird_pos: Vec3, viewport: &GameViewport) -> bool {
+    bird_pos.y + BIRD_SIZE / 2.0 >= viewport.half_height()
 }
 
 /// Checks if the bird has collided with any pipe.
@@ -108,8 +109,14 @@ fn trigger_game_over(
     // Send death event for visual effects
     death_events.write(DeathEvent { position: bird_pos });
 
+    let game_over_text = if cfg!(target_os = "ios") {
+        "Game Over!\nTap to restart"
+    } else {
+        "Game Over!\nClick or press SPACE to restart"
+    };
+
     for (mut visibility, mut text) in instruction_query.iter_mut() {
         *visibility = Visibility::Visible;
-        text.0 = "Game Over!\nPress SPACE to restart".to_string();
+        text.0 = game_over_text.to_string();
     }
 }

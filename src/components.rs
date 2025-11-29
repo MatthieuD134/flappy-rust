@@ -49,12 +49,25 @@ pub struct MainCamera;
 #[derive(Component)]
 pub struct ScreenFlash;
 
+/// Which edge of the screen an edge flash belongs to.
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub enum EdgeType {
+    Top,
+    Bottom,
+    Left,
+    Right,
+}
+
 /// Component for edge flash overlays (score effect).
 /// The alpha_multiplier controls the gradient fade (1.0 at edge, 0.0 at center).
 #[derive(Component)]
 pub struct EdgeFlash {
     /// Alpha multiplier for gradient effect (0.0 to 1.0)
     pub alpha_multiplier: f32,
+    /// Which edge this flash strip belongs to
+    pub edge: EdgeType,
+    /// Strip index (0 = outermost, increases towards center)
+    pub strip_index: usize,
 }
 
 /// Component for particle effects.
@@ -98,3 +111,11 @@ pub struct BirdSquashStretch {
     #[allow(dead_code)]
     pub is_squash: bool,
 }
+
+/// Marker component for entities that should fill the entire screen.
+#[derive(Component)]
+pub struct FillScreen;
+
+/// Marker for the sky background entity.
+#[derive(Component)]
+pub struct Sky;

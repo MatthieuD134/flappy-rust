@@ -2,9 +2,14 @@
 //!
 //! This module contains all the tunable parameters for the game.
 
-/// Window dimensions
-pub const WINDOW_WIDTH: f32 = 400.0;
-pub const WINDOW_HEIGHT: f32 = 600.0;
+/// Game logical dimensions (fixed height, width is dynamic based on aspect ratio)
+pub const GAME_HEIGHT: f32 = 600.0;
+/// Default aspect ratio for initial window
+pub const DEFAULT_ASPECT_RATIO: f32 = 0.667; // 400/600
+
+/// Window dimensions (for initial window size, game scales dynamically)
+pub const WINDOW_WIDTH: f32 = GAME_HEIGHT * DEFAULT_ASPECT_RATIO;
+pub const WINDOW_HEIGHT: f32 = GAME_HEIGHT;
 
 /// Physics constants
 pub const GRAVITY: f32 = -800.0;

@@ -23,16 +23,17 @@ mod utils;
 
 use constants::{WINDOW_HEIGHT, WINDOW_WIDTH};
 use resources::{
-    DeathEvent, EdgeFlashState, FlapEvent, PipeSpawnTimer, Score, ScoreEvent, ScreenFlashState,
-    ScreenShake,
+    DeathEvent, EdgeFlashState, FlapEvent, GameViewport, PipeSpawnTimer, Score, ScoreEvent,
+    ScreenFlashState, ScreenShake,
 };
 use states::GameState;
 use systems::{
     bird_flap, bird_physics, bird_tilt, check_collisions, pipe_movement, pipe_spawner,
     restart_game, setup, spawn_death_particles, spawn_flap_particles, start_game,
     trigger_bird_squash, trigger_death_effects, trigger_score_effects, trigger_score_pop,
-    update_bird_squash, update_edge_flash, update_particles, update_score, update_score_pop,
-    update_screen_flash, update_screen_shake,
+    update_bird_squash, update_edge_flash, update_edge_flash_positions,
+    update_fill_screen_entities, update_fill_width_entities, update_particles, update_score,
+    update_score_pop, update_screen_flash, update_screen_shake, update_viewport,
 };
 
 fn main() {
@@ -41,7 +42,7 @@ fn main() {
             primary_window: Some(Window {
                 title: "Flappy Rust".to_string(),
                 resolution: (WINDOW_WIDTH as u32, WINDOW_HEIGHT as u32).into(),
-                resizable: false,
+                resizable: true,
                 ..default()
             }),
             ..default()
@@ -50,6 +51,7 @@ fn main() {
         // Core resources
         .init_resource::<Score>()
         .init_resource::<PipeSpawnTimer>()
+        .init_resource::<GameViewport>()
         // Effect resources
         .init_resource::<ScreenShake>()
         .init_resource::<ScreenFlashState>()
@@ -60,6 +62,16 @@ fn main() {
         .add_message::<DeathEvent>()
         // Startup systems
         .add_systems(Startup, setup)
+        // Viewport update systems (always running)
+        .add_systems(
+            Update,
+            (
+                update_viewport,
+                update_fill_width_entities,
+                update_fill_screen_entities,
+                update_edge_flash_positions,
+            ),
+        )
         // Update systems
         .add_systems(
             Update,
@@ -88,21 +100,12 @@ fn main() {
                 // Game over state
                 restart_game.run_if(in_state(GameState::GameOver)),
                 // Death effects (run on game over transition)
-                (
-                    spawn_death_particles,
-                    trigger_death_effects,
-                )
+                (spawn_death_particles, trigger_death_effects)
                     .run_if(in_state(GameState::GameOver)),
-                // Always-running effect systems (animations, particles, shake, flash)
-                (
-                    update_particles,
-                    update_bird_squash,
-                    update_score_pop,
-                    update_screen_shake,
-                    update_screen_flash,
-                    update_edge_flash,
-                ),
             ),
         )
+        // Always-running effect systems
+        .add_systems(Update, (update_particles, update_bird_squash, update_score_pop))
+        .add_systems(Update, (update_screen_shake, update_screen_flash, update_edge_flash))
         .run();
 }

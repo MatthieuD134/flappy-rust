@@ -4,7 +4,46 @@
 
 use bevy::prelude::*;
 
-use crate::constants::PIPE_SPAWN_TIME;
+use crate::constants::{DEFAULT_ASPECT_RATIO, GAME_HEIGHT, PIPE_SPAWN_TIME};
+
+/// Resource to track the current game viewport dimensions.
+/// The height is fixed at GAME_HEIGHT, width adjusts based on window aspect ratio.
+#[derive(Resource)]
+pub struct GameViewport {
+    /// Current logical width of the game area (matches what camera shows)
+    pub width: f32,
+    /// Fixed logical height of the game area
+    pub height: f32,
+}
+
+impl Default for GameViewport {
+    fn default() -> Self {
+        Self {
+            width: GAME_HEIGHT * DEFAULT_ASPECT_RATIO,
+            height: GAME_HEIGHT,
+        }
+    }
+}
+
+impl GameViewport {
+    /// Updates the viewport dimensions based on window size.
+    /// Maintains fixed height and adjusts width to match actual camera view.
+    pub fn update_from_window(&mut self, window_width: f32, window_height: f32) {
+        // Use actual aspect ratio to match what the camera shows with FixedVertical scaling
+        let aspect_ratio = window_width / window_height;
+        self.width = self.height * aspect_ratio;
+    }
+
+    /// Returns half the width (useful for positioning)
+    pub fn half_width(&self) -> f32 {
+        self.width / 2.0
+    }
+
+    /// Returns half the height (useful for positioning)
+    pub fn half_height(&self) -> f32 {
+        self.height / 2.0
+    }
+}
 
 /// Resource to track the player's current score.
 #[derive(Resource, Default)]

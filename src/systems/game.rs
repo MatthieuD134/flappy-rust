@@ -10,13 +10,19 @@ use crate::states::GameState;
 
 /// Handles starting the game from the menu.
 ///
-/// Waits for the player to press SPACE to begin playing.
+/// Waits for the player to press SPACE, click, or tap to begin playing.
 pub fn start_game(
     keyboard_input: Res<ButtonInput<KeyCode>>,
+    mouse_input: Res<ButtonInput<MouseButton>>,
+    touches: Res<Touches>,
     mut next_state: ResMut<NextState<GameState>>,
     mut instruction_query: Query<&mut Visibility, With<InstructionText>>,
 ) {
-    if keyboard_input.just_pressed(KeyCode::Space) {
+    let should_start = keyboard_input.just_pressed(KeyCode::Space)
+        || mouse_input.just_pressed(MouseButton::Left)
+        || touches.any_just_pressed();
+
+    if should_start {
         next_state.set(GameState::Playing);
         for mut visibility in instruction_query.iter_mut() {
             *visibility = Visibility::Hidden;
@@ -30,6 +36,8 @@ pub fn start_game(
 #[allow(clippy::too_many_arguments, clippy::type_complexity)]
 pub fn restart_game(
     keyboard_input: Res<ButtonInput<KeyCode>>,
+    mouse_input: Res<ButtonInput<MouseButton>>,
+    touches: Res<Touches>,
     mut next_state: ResMut<NextState<GameState>>,
     mut bird_query: Query<(&mut Bird, &mut Transform)>,
     pipe_query: Query<Entity, With<Pipe>>,
@@ -41,7 +49,11 @@ pub fn restart_game(
         (With<InstructionText>, Without<ScoreText>),
     >,
 ) {
-    if keyboard_input.just_pressed(KeyCode::Space) {
+    let should_restart = keyboard_input.just_pressed(KeyCode::Space)
+        || mouse_input.just_pressed(MouseButton::Left)
+        || touches.any_just_pressed();
+
+    if should_restart {
         reset_bird(&mut bird_query);
         despawn_all_pipes(&mut commands, &pipe_query);
         reset_score(&mut score, &mut text_query);

@@ -9,6 +9,7 @@ pub mod game;
 pub mod pipes;
 pub mod score;
 pub mod setup;
+pub mod viewport;
 
 // Re-export commonly used systems for convenient access
 pub use bird::{bird_flap, bird_physics, bird_tilt};
@@ -22,3 +23,7 @@ pub use game::{restart_game, start_game};
 pub use pipes::{pipe_movement, pipe_spawner};
 pub use score::update_score;
 pub use setup::setup;
+pub use viewport::{
+    update_edge_flash_positions, update_fill_screen_entities, update_fill_width_entities,
+    update_viewport,
+};
